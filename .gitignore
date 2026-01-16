@@ -4,7 +4,6 @@ public/build/*
 .env
 .vscode/
 .idea/
-dist/
 coverage/
 *.log
 *.tmp
