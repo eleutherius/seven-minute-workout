@@ -1,4 +1,8 @@
-const ExerciseIllustration = ({ motion }) => {
+interface ExerciseIllustrationProps {
+  motion?: string;
+}
+
+const ExerciseIllustration = ({ motion }: ExerciseIllustrationProps) => {
   const className = ['illustration', motion].filter(Boolean).join(' ');
 
   return (

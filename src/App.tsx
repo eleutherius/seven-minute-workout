@@ -1,24 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Controls from './components/Controls.jsx';
-import ExerciseIllustration from './components/ExerciseIllustration.jsx';
-import ProgressBar from './components/ProgressBar.jsx';
-import TimerDisplay from './components/TimerDisplay.jsx';
-import exercises from './data/exercises.js';
-import { createBeepEngine } from './utils/audio.js';
+import Controls from './components/Controls.tsx';
+import ExerciseIllustration from './components/ExerciseIllustration.tsx';
+import ProgressBar from './components/ProgressBar.tsx';
+import TimerDisplay from './components/TimerDisplay.tsx';
+import exercises from './data/exercises.ts';
+import { createBeepEngine, type BeepEngine } from './utils/audio.ts';
+
+type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
 
 const totalDuration = exercises.reduce((sum, exercise) => sum + exercise.duration, 0);
-const statusLabels = {
+const statusLabels: Record<WorkoutStatus, string> = {
   idle: 'Ready',
   running: 'In Progress',
   paused: 'Paused',
-  done: 'Complete'
+  done: 'Complete',
 };
 
 const App = () => {
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState<WorkoutStatus>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [remaining, setRemaining] = useState(exercises[0]?.duration ?? 0);
-  const audioRef = useRef(null);
+  const audioRef = useRef<BeepEngine | null>(null);
 
   const current = exercises[currentIndex];
   const nextExercise = exercises[currentIndex + 1];

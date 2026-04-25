@@ -1,6 +1,10 @@
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+interface ProgressBarProps {
+  value: number;
+}
 
-const ProgressBar = ({ value }) => {
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+const ProgressBar = ({ value }: ProgressBarProps) => {
   const pct = clamp(value * 100, 0, 100).toFixed(0);
   return (
     <div className="progress">

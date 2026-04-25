@@ -1,4 +1,13 @@
-const Controls = ({ status, onStart, onPause, onReset }) => (
+type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
+
+interface ControlsProps {
+  status: WorkoutStatus;
+  onStart: () => void;
+  onPause: () => void;
+  onReset: () => void;
+}
+
+const Controls = ({ status, onStart, onPause, onReset }: ControlsProps) => (
   <div className="controls">
     <button
       className="btn primary"
