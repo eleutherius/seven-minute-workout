@@ -4,25 +4,40 @@ import ExerciseIllustration from './components/ExerciseIllustration.tsx';
 import ProgressBar from './components/ProgressBar.tsx';
 import TimerDisplay from './components/TimerDisplay.tsx';
 import exercises from './data/exercises.ts';
+import type { Exercise } from './data/exercises.ts';
 import { useTranslation } from './i18n.tsx';
 import type { Lang } from './i18n.tsx';
 import { createBeepEngine, type BeepEngine } from './utils/audio.ts';
 
 type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
 
-const totalDuration = exercises.reduce((sum, ex) => sum + ex.duration, 0);
 const LANGS: Lang[] = ['en', 'uk'];
+
+const shuffle = <T,>(arr: T[]): T[] => {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
 
 const App = () => {
   const { t, lang, setLang } = useTranslation();
 
+  const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>(() => shuffle(exercises));
   const [status, setStatus] = useState<WorkoutStatus>('idle');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [remaining, setRemaining] = useState(exercises[0]?.duration ?? 0);
+  const [remaining, setRemaining] = useState(() => workoutExercises[0]?.duration ?? 0);
   const audioRef = useRef<BeepEngine | null>(null);
 
-  const current = exercises[currentIndex];
-  const nextExercise = exercises[currentIndex + 1];
+  const current = workoutExercises[currentIndex];
+  const nextExercise = workoutExercises[currentIndex + 1];
+
+  const totalDuration = useMemo(
+    () => workoutExercises.reduce((sum, ex) => sum + ex.duration, 0),
+    [workoutExercises],
+  );
 
   const initAudio = () => {
     if (!audioRef.current) {
@@ -32,9 +47,11 @@ const App = () => {
 
   const handleStart = () => {
     initAudio();
-    if (status === 'done') {
+    if (status === 'idle' || status === 'done') {
+      const next = shuffle(exercises);
+      setWorkoutExercises(next);
       setCurrentIndex(0);
-      setRemaining(exercises[0]?.duration ?? 0);
+      setRemaining(next[0]?.duration ?? 0);
     }
     setStatus('running');
   };
@@ -49,9 +66,11 @@ const App = () => {
 
   const handleReset = () => {
     initAudio();
+    const next = shuffle(exercises);
+    setWorkoutExercises(next);
     setStatus('idle');
     setCurrentIndex(0);
-    setRemaining(exercises[0]?.duration ?? 0);
+    setRemaining(next[0]?.duration ?? 0);
   };
 
   useEffect(() => {
@@ -71,7 +90,7 @@ const App = () => {
       return;
     }
 
-    const isLast = currentIndex === exercises.length - 1;
+    const isLast = currentIndex === workoutExercises.length - 1;
     if (isLast) {
       audioRef.current?.end();
       setStatus('done');
@@ -81,8 +100,8 @@ const App = () => {
     audioRef.current?.transition();
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
-    setRemaining(exercises[nextIndex].duration);
-  }, [remaining, status, currentIndex]);
+    setRemaining(workoutExercises[nextIndex].duration);
+  }, [remaining, status, currentIndex, workoutExercises]);
 
   useEffect(() => {
     if (status === 'running') {
@@ -91,12 +110,12 @@ const App = () => {
   }, [status, currentIndex]);
 
   const completedDuration = useMemo(() => {
-    const finished = exercises
+    const finished = workoutExercises
       .slice(0, currentIndex)
       .reduce((sum, ex) => sum + ex.duration, 0);
     const currentElapsed = current?.duration ? current.duration - remaining : 0;
     return finished + Math.max(0, currentElapsed);
-  }, [currentIndex, remaining, current]);
+  }, [currentIndex, remaining, current, workoutExercises]);
 
   const overallProgress = totalDuration ? completedDuration / totalDuration : 0;
   const exerciseProgress = current?.duration
@@ -131,7 +150,7 @@ const App = () => {
         <div className="card-top">
           <div className="exercise-meta">
             <p className="meta">
-              {t.exerciseX} {currentIndex + 1} {t.ofTotal} {exercises.length}
+              {t.exerciseX} {currentIndex + 1} {t.ofTotal} {workoutExercises.length}
             </p>
             <h2>{current ? exerciseName(current.id) : ''}</h2>
             <p className="sub">{current?.duration}{t.seconds}</p>
