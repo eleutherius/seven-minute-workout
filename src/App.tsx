@@ -97,7 +97,6 @@ const App = () => {
       return;
     }
 
-    audioRef.current?.transition();
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
     setRemaining(workoutExercises[nextIndex].duration);

@@ -1,7 +1,6 @@
 export interface BeepEngine {
   start: () => void;
   end: () => void;
-  transition: () => void;
   pause: () => void;
 }
 
@@ -13,8 +12,21 @@ export const createBeepEngine = (): BeepEngine | null => {
 
   const context = new AudioContextClass();
 
+  // Tracks gain nodes of the currently fading gong so we can cut them on restart
+  const activeGongGains: GainNode[] = [];
+
   const resume = () => {
     if (context.state === 'suspended') context.resume();
+  };
+
+  const stopGong = () => {
+    const now = context.currentTime;
+    for (const g of activeGongGains) {
+      g.gain.cancelScheduledValues(now);
+      g.gain.setValueAtTime(g.gain.value, now);
+      g.gain.linearRampToValueAtTime(0, now + 0.03);
+    }
+    activeGongGains.length = 0;
   };
 
   const beep = (frequency: number, duration: number, type: OscillatorType, gainValue: number) => {
@@ -36,10 +48,11 @@ export const createBeepEngine = (): BeepEngine | null => {
   // Gong: multiple inharmonic partials with exponential decay
   const gong = () => {
     resume();
+    stopGong();
+
     const now = context.currentTime;
     const decayTime = 2.8;
 
-    // Fundamental + inharmonic overtones characteristic of a gong
     const partials: [number, number][] = [
       [110, 0.22],
       [180, 0.14],
@@ -55,7 +68,6 @@ export const createBeepEngine = (): BeepEngine | null => {
       osc.type = 'sine';
       osc.frequency.value = freq;
 
-      // Sharp attack, long exponential decay
       gain.gain.setValueAtTime(amp, now);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + decayTime);
 
@@ -64,13 +76,14 @@ export const createBeepEngine = (): BeepEngine | null => {
 
       osc.start(now);
       osc.stop(now + decayTime);
+
+      activeGongGains.push(gain);
     }
   };
 
   return {
     start: gong,
     end: () => beep(220, 0.24, 'triangle', 0.2),
-    transition: () => beep(520, 0.09, 'square', 0.12),
-    pause: () => beep(330, 0.1, 'sine', 0.12),
+pause: () => beep(330, 0.1, 'sine', 0.12),
   };
 };
