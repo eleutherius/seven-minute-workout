@@ -53,6 +53,36 @@ body::before {
   margin: 0 auto;
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+}
+
+.lang-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.lang-btn.active {
+  background: rgba(255, 183, 3, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .app-header h1 {
   font-family: 'Syne', 'Space Grotesk', sans-serif;
   font-size: 2rem;

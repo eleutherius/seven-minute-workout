@@ -1,3 +1,5 @@
+import { useTranslation } from '../i18n.tsx';
+
 type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
 
 interface ControlsProps {
@@ -7,28 +9,32 @@ interface ControlsProps {
   onReset: () => void;
 }
 
-const Controls = ({ status, onStart, onPause, onReset }: ControlsProps) => (
-  <div className="controls">
-    <button
-      className="btn primary"
-      type="button"
-      onClick={onStart}
-      disabled={status === 'running'}
-    >
-      Start
-    </button>
-    <button
-      className="btn"
-      type="button"
-      onClick={onPause}
-      disabled={status !== 'running'}
-    >
-      Pause
-    </button>
-    <button className="btn ghost" type="button" onClick={onReset}>
-      Reset
-    </button>
-  </div>
-);
+const Controls = ({ status, onStart, onPause, onReset }: ControlsProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="controls">
+      <button
+        className="btn primary"
+        type="button"
+        onClick={onStart}
+        disabled={status === 'running'}
+      >
+        {t.start}
+      </button>
+      <button
+        className="btn"
+        type="button"
+        onClick={onPause}
+        disabled={status !== 'running'}
+      >
+        {t.pause}
+      </button>
+      <button className="btn ghost" type="button" onClick={onReset}>
+        {t.reset}
+      </button>
+    </div>
+  );
+};
 
 export default Controls;

@@ -1,3 +1,5 @@
+import { useTranslation } from '../i18n.tsx';
+
 interface TimerDisplayProps {
   seconds: number;
 }
@@ -8,11 +10,15 @@ const formatTime = (seconds: number): string => {
   return `${mins}:${String(secs).padStart(2, '0')}`;
 };
 
-const TimerDisplay = ({ seconds }: TimerDisplayProps) => (
-  <div className="timer">
-    <span className="timer-label">Time Left</span>
-    <span className="timer-value">{formatTime(seconds)}</span>
-  </div>
-);
+const TimerDisplay = ({ seconds }: TimerDisplayProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="timer">
+      <span className="timer-label">{t.timeLeft}</span>
+      <span className="timer-value">{formatTime(seconds)}</span>
+    </div>
+  );
+};
 
 export default TimerDisplay;
