@@ -306,7 +306,12 @@ const App = () => {
                       {expanded && (
                         <div className="checklist-details">
                           <p className="checklist-desc">{t.exerciseDescriptions[ex.id]}</p>
-                          <ExerciseIllustration motion={ex.motion} />
+                          <img
+                            className="checklist-photo"
+                            src={`/exercises/${ex.id}.webp`}
+                            alt={exerciseName(ex.id)}
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                          />
                         </div>
                       )}
                     </div>
