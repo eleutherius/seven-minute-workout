@@ -59,12 +59,18 @@ body::before {
   align-items: center;
 }
 
-.lang-switcher {
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mode-switcher {
   display: flex;
   gap: 4px;
 }
 
-.lang-btn {
+.mode-btn {
   padding: 4px 10px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -77,10 +83,28 @@ body::before {
   transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
-.lang-btn.active {
-  background: rgba(255, 183, 3, 0.15);
-  border-color: var(--accent);
-  color: var(--accent);
+.mode-btn.active {
+  background: rgba(0, 180, 216, 0.15);
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+}
+
+.lang-select {
+  padding: 4px 24px 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239ca3af'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  color-scheme: dark;
 }
 
 .app-header h1 {
@@ -465,6 +489,189 @@ body::before {
   0%, 100% { transform: rotate(0deg); }
   50%      { transform: rotate(6deg); }
 }
+
+/* ====================== GYM MODE ====================== */
+
+.weekly-split {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.split-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.split-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.split-day.today {
+  background: rgba(0, 180, 216, 0.15);
+  border-color: var(--accent-2);
+}
+
+.split-day.rest {
+  opacity: 0.55;
+}
+
+.split-day-abbr {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.split-day.today .split-day-abbr {
+  color: var(--accent-2);
+}
+
+.split-day-muscle {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.rest-day-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 160px;
+  gap: 10px;
+}
+
+.rest-day-card h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--accent-2);
+}
+
+.today-focus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(0, 180, 216, 0.08);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 180, 216, 0.2);
+}
+
+.today-focus strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gym-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-row {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.checklist-row.expanded {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.checklist-row.done {
+  opacity: 0.38;
+}
+
+.checklist-row-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checklist-chevron {
+  font-size: 0.75rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.checklist-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.checklist-sets {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.checklist-details {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.checklist-desc {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.checklist-details .illustration {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 16px;
+}
+
+.set-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.set-btn.checked {
+  background: var(--accent-3);
+  border-color: var(--accent-3);
+  color: #1a1a1a;
+}
+
 
 @media (max-width: 480px) {
   .card-top {

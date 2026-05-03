@@ -3,6 +3,9 @@ export interface Exercise {
   name: string;
   duration: number;
   motion: string;
+  setNumber?: number;
+  totalSets?: number;
+  isRest?: boolean;
 }
 
 const exercises: Exercise[] = [

@@ -7,9 +7,10 @@ interface ControlsProps {
   onStart: () => void;
   onPause: () => void;
   onReset: () => void;
+  startDisabled?: boolean;
 }
 
-const Controls = ({ status, onStart, onPause, onReset }: ControlsProps) => {
+const Controls = ({ status, onStart, onPause, onReset, startDisabled }: ControlsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -18,7 +19,7 @@ const Controls = ({ status, onStart, onPause, onReset }: ControlsProps) => {
         className="btn primary"
         type="button"
         onClick={onStart}
-        disabled={status === 'running'}
+        disabled={status === 'running' || startDisabled}
       >
         {t.start}
       </button>
