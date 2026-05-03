@@ -5,7 +5,7 @@ import ProgressBar from './components/ProgressBar.tsx';
 import TimerDisplay from './components/TimerDisplay.tsx';
 import exercises from './data/exercises.ts';
 import type { Exercise } from './data/exercises.ts';
-import { gymSplit, getTodaySplit, getTodaySplitIndex } from './data/gymWorkouts.ts';
+import { gymSplit, getTodaySplitIndex } from './data/gymWorkouts.ts';
 import { useTranslation } from './i18n.tsx';
 import type { Lang } from './i18n.tsx';
 import { createBeepEngine, type BeepEngine } from './utils/audio.ts';
@@ -45,17 +45,24 @@ const App = () => {
   const audioRef = useRef<BeepEngine | null>(null);
 
   // Gym checklist state
-  const todaySplit = getTodaySplit();
   const todaySplitIndex = getTodaySplitIndex();
-  const isGymRestDay = workoutMode === 'gym' && todaySplit.isRest;
+  const [selectedSplitIndex, setSelectedSplitIndex] = useState(todaySplitIndex);
+  const selectedSplit = gymSplit[selectedSplitIndex];
+  const isGymRestDay = workoutMode === 'gym' && selectedSplit.isRest;
 
-  const makeChecklist = () =>
+  const makeChecklist = (split = selectedSplit) =>
     Object.fromEntries(
-      todaySplit.exercises.map((ex) => [ex.id, new Array(ex.sets).fill(false) as boolean[]]),
+      split.exercises.map((ex) => [ex.id, new Array(ex.sets).fill(false) as boolean[]]),
     );
 
-  const [gymChecklist, setGymChecklist] = useState<Record<string, boolean[]>>(makeChecklist);
+  const [gymChecklist, setGymChecklist] = useState<Record<string, boolean[]>>(() => makeChecklist());
   const [expandedExercises, setExpandedExercises] = useState<Set<string>>(new Set());
+
+  const handleDaySelect = (idx: number) => {
+    setSelectedSplitIndex(idx);
+    setGymChecklist(makeChecklist(gymSplit[idx]));
+    setExpandedExercises(new Set());
+  };
 
   const toggleExpand = (id: string) => {
     setExpandedExercises((prev) => {
@@ -209,14 +216,17 @@ const App = () => {
             <div className="split-calendar">
               {gymSplit.map((day, idx) => {
                 const isToday = idx === todaySplitIndex;
+                const isSelected = idx === selectedSplitIndex;
                 return (
-                  <div
+                  <button
                     key={idx}
-                    className={`split-day${isToday ? ' today' : ''}${day.isRest ? ' rest' : ''}`}
+                    type="button"
+                    onClick={() => handleDaySelect(idx)}
+                    className={`split-day${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}${day.isRest ? ' rest' : ''}`}
                   >
                     <span className="split-day-abbr">{t.days[idx]}</span>
                     <span className="split-day-muscle">{t.muscleGroups[day.key]}</span>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -230,12 +240,12 @@ const App = () => {
           ) : (
             <>
               <div className="today-focus">
-                <span className="meta">{t.todaysFocus}</span>
-                <strong>{t.muscleGroups[todaySplit.key]}</strong>
+                <span className="meta">{selectedSplitIndex === todaySplitIndex ? t.todaysFocus : t.days[selectedSplitIndex]}</span>
+                <strong>{t.muscleGroups[selectedSplit.key]}</strong>
               </div>
 
               <section className="gym-checklist">
-                {todaySplit.exercises.map((ex) => {
+                {selectedSplit.exercises.map((ex) => {
                   const sets = gymChecklist[ex.id] ?? (new Array(ex.sets).fill(false) as boolean[]);
                   const allDone = sets.every(Boolean);
                   const expanded = expandedExercises.has(ex.id);

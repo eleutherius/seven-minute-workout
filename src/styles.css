@@ -513,11 +513,24 @@ body::before {
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.split-day:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .split-day.today {
   background: rgba(0, 180, 216, 0.15);
   border-color: var(--accent-2);
+}
+
+.split-day.selected {
+  background: rgba(0, 180, 216, 0.25);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 2px var(--accent-2);
 }
 
 .split-day.rest {
