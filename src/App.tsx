@@ -308,7 +308,7 @@ const App = () => {
                           <p className="checklist-desc">{t.exerciseDescriptions[ex.id]}</p>
                           <img
                             className="checklist-photo"
-                            src={`/exercises/${ex.id}.webp`}
+                            src={`${import.meta.env.BASE_URL}exercises/${ex.id}.webp`}
                             alt={exerciseName(ex.id)}
                             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                           />
