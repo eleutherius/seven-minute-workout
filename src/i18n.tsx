@@ -22,6 +22,8 @@ export interface Translations {
   homeMode: string;
   gymMode: string;
   todaysFocus: string;
+  getReady: string;
+  restLabel: string;
   restDay: string;
   restDayMessage: string;
   setLabel: string;
@@ -36,7 +38,9 @@ const en: Translations = {
   appTitle: 'Seven-Minute Workout',
   status: {
     idle: 'Ready',
+    countdown: 'Get Ready',
     running: 'In Progress',
+    rest: 'Rest',
     paused: 'Paused',
     done: 'Complete',
   },
@@ -94,6 +98,8 @@ const en: Translations = {
   homeMode: 'Home',
   gymMode: 'Gym',
   todaysFocus: "Today's focus",
+  getReady: 'Get Ready!',
+  restLabel: 'Rest',
   restDay: 'Rest Day',
   restDayMessage: 'Recovery is part of training. Rest up!',
   setLabel: 'Set',
@@ -139,7 +145,9 @@ const uk: Translations = {
   appTitle: 'Семихвилинне тренування',
   status: {
     idle: 'Готово',
+    countdown: 'Приготуйтесь',
     running: 'Виконується',
+    rest: 'Відпочинок',
     paused: 'Пауза',
     done: 'Завершено',
   },
@@ -197,6 +205,8 @@ const uk: Translations = {
   homeMode: 'Дім',
   gymMode: 'Зал',
   todaysFocus: 'Сьогодні',
+  getReady: 'Приготуйтесь!',
+  restLabel: 'Відпочинок',
   restDay: 'День відпочинку',
   restDayMessage: 'Відновлення — частина тренувань. Відпочивай!',
   setLabel: 'Підхід',

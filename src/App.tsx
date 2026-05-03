@@ -10,8 +10,11 @@ import { useTranslation } from './i18n.tsx';
 import type { Lang } from './i18n.tsx';
 import { createBeepEngine, type BeepEngine } from './utils/audio.ts';
 
-type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
+type WorkoutStatus = 'idle' | 'countdown' | 'running' | 'rest' | 'paused' | 'done';
 type WorkoutMode = 'home' | 'gym';
+
+const COUNTDOWN_DURATION = 15;
+const REST_DURATION = 10;
 
 const LANGS: Record<Lang, string> = {
   en: 'English',
@@ -40,6 +43,7 @@ const App = () => {
   // Home workout state
   const [workoutExercises, setWorkoutExercises] = useState<Exercise[]>(() => shuffle(exercises));
   const [status, setStatus] = useState<WorkoutStatus>('idle');
+  const [pausedFrom, setPausedFrom] = useState<WorkoutStatus>('running');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [remaining, setRemaining] = useState(() => workoutExercises[0]?.duration ?? 0);
   const audioRef = useRef<BeepEngine | null>(null);
@@ -102,15 +106,18 @@ const App = () => {
       const next = shuffle(exercises);
       setWorkoutExercises(next);
       setCurrentIndex(0);
-      setRemaining(next[0]?.duration ?? 0);
+      setRemaining(COUNTDOWN_DURATION);
+      setStatus('countdown');
+    } else if (status === 'paused') {
+      setStatus(pausedFrom);
     }
-    setStatus('running');
   };
 
   const handlePause = () => {
     initAudio();
-    if (status === 'running') {
+    if (status === 'running' || status === 'rest' || status === 'countdown') {
       audioRef.current?.pause();
+      setPausedFrom(status);
       setStatus('paused');
     }
   };
@@ -134,7 +141,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (status !== 'running') return undefined;
+    if (status !== 'running' && status !== 'countdown' && status !== 'rest') return undefined;
     const timerId = setInterval(() => {
       setRemaining((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -142,16 +149,30 @@ const App = () => {
   }, [status]);
 
   useEffect(() => {
-    if (status !== 'running' || remaining > 0) return;
-    const isLast = currentIndex === workoutExercises.length - 1;
-    if (isLast) {
-      audioRef.current?.end();
-      setStatus('done');
+    if (remaining > 0) return;
+    if (status === 'countdown') {
+      setStatus('running');
+      setRemaining(workoutExercises[0]?.duration ?? 0);
       return;
     }
-    const nextIndex = currentIndex + 1;
-    setCurrentIndex(nextIndex);
-    setRemaining(workoutExercises[nextIndex].duration);
+    if (status === 'rest') {
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+      setStatus('running');
+      setRemaining(workoutExercises[nextIndex]?.duration ?? 0);
+      return;
+    }
+    if (status === 'running') {
+      const isLast = currentIndex === workoutExercises.length - 1;
+      if (isLast) {
+        audioRef.current?.end();
+        setStatus('done');
+        return;
+      }
+      audioRef.current?.restStart();
+      setStatus('rest');
+      setRemaining(REST_DURATION);
+    }
   }, [remaining, status, currentIndex, workoutExercises]);
 
   useEffect(() => {
@@ -160,18 +181,33 @@ const App = () => {
     }
   }, [status, currentIndex]);
 
+  // Tick sound during countdown
+  useEffect(() => {
+    if (status === 'countdown' && remaining > 0) {
+      audioRef.current?.tick();
+    }
+  }, [remaining, status]);
+
+  const displayStatus = status === 'paused' ? pausedFrom : status;
+
   const completedDuration = useMemo(() => {
     const finished = workoutExercises
       .slice(0, currentIndex)
       .reduce((sum, ex) => sum + ex.duration, 0);
-    const currentElapsed = current?.duration ? current.duration - remaining : 0;
+    let currentElapsed = 0;
+    if (displayStatus === 'running') {
+      currentElapsed = current?.duration ? current.duration - remaining : 0;
+    } else if (displayStatus === 'rest' || displayStatus === 'done') {
+      currentElapsed = current?.duration ?? 0;
+    }
     return finished + Math.max(0, currentElapsed);
-  }, [currentIndex, remaining, current, workoutExercises]);
+  }, [currentIndex, remaining, current, workoutExercises, displayStatus]);
 
   const overallProgress = totalDuration ? completedDuration / totalDuration : 0;
-  const exerciseProgress = current?.duration
-    ? (current.duration - remaining) / current.duration
-    : 0;
+  const exerciseProgress =
+    displayStatus === 'countdown' ? 0 :
+    displayStatus === 'rest' ? 1 :
+    current?.duration ? (current.duration - remaining) / current.duration : 0;
 
   const exerciseName = (id: string) => t.exercises[id] ?? id;
 
@@ -290,20 +326,41 @@ const App = () => {
         </>
       ) : (
         <>
-          <section className="card">
-            <div className="card-top">
-              <div className="exercise-meta">
-                <p className="meta">
-                  {t.exerciseX} {currentIndex + 1} {t.ofTotal} {workoutExercises.length}
-                </p>
-                <h2>{current ? exerciseName(current.id) : ''}</h2>
-                <p className="sub">{current?.duration}{t.seconds}</p>
+          {displayStatus === 'countdown' && (
+            <section className="card countdown-card">
+              <p className="meta">{t.getReady}</p>
+              <div className="countdown-number">{remaining}</div>
+              <p className="countdown-exercise">{exerciseName(workoutExercises[0]?.id)}</p>
+            </section>
+          )}
+
+          {displayStatus === 'rest' && (
+            <section className="card rest-between-card">
+              <p className="meta">{t.restLabel}</p>
+              <div className="rest-timer">{remaining}{t.seconds}</div>
+              <p className="rest-next">
+                <span className="meta">{t.upNext}</span>
+                <strong>{exerciseName(workoutExercises[currentIndex + 1]?.id)}</strong>
+              </p>
+            </section>
+          )}
+
+          {displayStatus !== 'countdown' && displayStatus !== 'rest' && (
+            <section className="card">
+              <div className="card-top">
+                <div className="exercise-meta">
+                  <p className="meta">
+                    {t.exerciseX} {currentIndex + 1} {t.ofTotal} {workoutExercises.length}
+                  </p>
+                  <h2>{current ? exerciseName(current.id) : ''}</h2>
+                  <p className="sub">{current?.duration}{t.seconds}</p>
+                </div>
+                <ExerciseIllustration motion={current?.motion} />
               </div>
-              <ExerciseIllustration motion={current?.motion} />
-            </div>
-            <TimerDisplay seconds={remaining} />
-            <ProgressBar value={exerciseProgress} />
-          </section>
+              <TimerDisplay seconds={remaining} />
+              <ProgressBar value={exerciseProgress} />
+            </section>
+          )}
 
           <section className="overall">
             <div className="overall-header">
@@ -320,13 +377,15 @@ const App = () => {
             onReset={handleReset}
           />
 
-          <section className="next">
-            <p className="meta">{t.upNext}</p>
-            <div className="next-card">
-              <span>{nextExercise ? exerciseName(nextExercise.id) : t.cooldown}</span>
-              <span>{nextExercise ? `${nextExercise.duration}${t.seconds}` : t.niceWork}</span>
-            </div>
-          </section>
+          {displayStatus !== 'rest' && (
+            <section className="next">
+              <p className="meta">{t.upNext}</p>
+              <div className="next-card">
+                <span>{nextExercise ? exerciseName(nextExercise.id) : t.cooldown}</span>
+                <span>{nextExercise ? `${nextExercise.duration}${t.seconds}` : t.niceWork}</span>
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>

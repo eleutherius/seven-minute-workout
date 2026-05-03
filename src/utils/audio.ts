@@ -2,6 +2,8 @@ export interface BeepEngine {
   start: () => void;
   end: () => void;
   pause: () => void;
+  tick: () => void;
+  restStart: () => void;
 }
 
 export const createBeepEngine = (): BeepEngine | null => {
@@ -84,6 +86,8 @@ export const createBeepEngine = (): BeepEngine | null => {
   return {
     start: gong,
     end: () => beep(220, 0.24, 'triangle', 0.2),
-pause: () => beep(330, 0.1, 'sine', 0.12),
+    pause: () => beep(330, 0.1, 'sine', 0.12),
+    tick: () => beep(880, 0.08, 'sine', 0.12),
+    restStart: () => beep(528, 0.15, 'sine', 0.1),
   };
 };

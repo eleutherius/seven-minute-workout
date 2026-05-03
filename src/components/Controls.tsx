@@ -1,6 +1,6 @@
 import { useTranslation } from '../i18n.tsx';
 
-type WorkoutStatus = 'idle' | 'running' | 'paused' | 'done';
+type WorkoutStatus = 'idle' | 'countdown' | 'running' | 'rest' | 'paused' | 'done';
 
 interface ControlsProps {
   status: WorkoutStatus;
@@ -19,7 +19,7 @@ const Controls = ({ status, onStart, onPause, onReset, startDisabled }: Controls
         className="btn primary"
         type="button"
         onClick={onStart}
-        disabled={status === 'running' || startDisabled}
+        disabled={status === 'running' || status === 'countdown' || status === 'rest' || startDisabled}
       >
         {t.start}
       </button>
@@ -27,7 +27,7 @@ const Controls = ({ status, onStart, onPause, onReset, startDisabled }: Controls
         className="btn"
         type="button"
         onClick={onPause}
-        disabled={status !== 'running'}
+        disabled={status !== 'running' && status !== 'countdown' && status !== 'rest'}
       >
         {t.pause}
       </button>

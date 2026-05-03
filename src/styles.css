@@ -573,6 +573,67 @@ body::before {
   color: var(--accent-2);
 }
 
+/* Countdown 3-2-1 card */
+.countdown-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  min-height: 200px;
+}
+
+.countdown-number {
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  animation: countdown-pop 0.25s ease-out;
+}
+
+@keyframes countdown-pop {
+  from { transform: scale(1.4); opacity: 0.5; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.countdown-exercise {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Rest between exercises card */
+.rest-between-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  min-height: 200px;
+}
+
+.rest-timer {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-2);
+}
+
+.rest-next {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.rest-next strong {
+  font-size: 1rem;
+  color: var(--text);
+}
+
 .today-focus {
   display: flex;
   align-items: center;
