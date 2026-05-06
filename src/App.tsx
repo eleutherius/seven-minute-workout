@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import CircularTimer from './components/CircularTimer.tsx';
 import Controls from './components/Controls.tsx';
 import ExerciseIllustration from './components/ExerciseIllustration.tsx';
 import ProgressBar from './components/ProgressBar.tsx';
-import TimerDisplay from './components/TimerDisplay.tsx';
 import exercises from './data/exercises.ts';
 import type { Exercise } from './data/exercises.ts';
 import { gymSplit, getTodaySplitIndex } from './data/gymWorkouts.ts';
@@ -208,10 +208,6 @@ const App = () => {
   }, [currentIndex, remaining, current, workoutExercises, displayStatus]);
 
   const overallProgress = totalDuration ? completedDuration / totalDuration : 0;
-  const exerciseProgress =
-    displayStatus === 'countdown' ? 0 :
-    displayStatus === 'rest' ? 1 :
-    current?.duration ? (current.duration - remaining) / current.duration : 0;
 
   const exerciseName = (id: string) => t.exercises[id] ?? id;
 
@@ -340,38 +336,33 @@ const App = () => {
       ) : (
         <>
           {displayStatus === 'countdown' && (
-            <section className="card countdown-card">
-              <p className="meta">{t.getReady}</p>
-              <div className="countdown-number">{remaining}</div>
-              <p className="countdown-exercise">{exerciseName(workoutExercises[0]?.id)}</p>
+            <section className="card home-card">
+              <p className="home-card-label">{t.getReady}</p>
+              <p className="home-card-exercise-name">
+                {t.exerciseX} 1 {t.ofTotal} {workoutExercises.length} · {exerciseName(workoutExercises[0]?.id)}
+              </p>
+              <CircularTimer seconds={remaining} total={COUNTDOWN_DURATION} color="var(--accent-2)" />
             </section>
           )}
 
           {displayStatus === 'rest' && (
-            <section className="card rest-between-card">
-              <p className="meta">{t.restLabel}</p>
-              <div className="rest-timer">{remaining}{t.seconds}</div>
-              <p className="rest-next">
-                <span className="meta">{t.upNext}</span>
-                <strong>{exerciseName(workoutExercises[currentIndex + 1]?.id)}</strong>
+            <section className="card home-card">
+              <p className="home-card-label">{t.restLabel}</p>
+              <p className="home-card-exercise-name">
+                {t.upNext} · {exerciseName(workoutExercises[currentIndex + 1]?.id)}
               </p>
+              <CircularTimer seconds={remaining} total={REST_DURATION} color="var(--accent-3)" />
             </section>
           )}
 
           {displayStatus !== 'countdown' && displayStatus !== 'rest' && (
-            <section className="card">
-              <div className="card-top">
-                <div className="exercise-meta">
-                  <p className="meta">
-                    {t.exerciseX} {currentIndex + 1} {t.ofTotal} {workoutExercises.length}
-                  </p>
-                  <h2>{current ? exerciseName(current.id) : ''}</h2>
-                  <p className="sub">{current?.duration}{t.seconds}</p>
-                </div>
-                <ExerciseIllustration motion={current?.motion} />
-              </div>
-              <TimerDisplay seconds={remaining} />
-              <ProgressBar value={exerciseProgress} />
+            <section className="card home-card">
+              <p className="home-card-label">
+                {t.exerciseX} {currentIndex + 1} {t.ofTotal} {workoutExercises.length}
+              </p>
+              <h2 className="home-card-title">{current ? exerciseName(current.id) : ''}</h2>
+              <CircularTimer seconds={remaining} total={current?.duration ?? 1} />
+              <ExerciseIllustration motion={current?.motion} />
             </section>
           )}
 

@@ -179,22 +179,71 @@ body::before {
   color: var(--accent-2);
 }
 
-.timer {
-  margin-top: 18px;
+.home-card {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
 }
 
-.timer-label {
+.home-card-label {
+  margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-.timer-value {
-  font-size: 3rem;
+.home-card-title {
+  margin: 0;
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+}
+
+.home-card-exercise-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.circular-timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin: 4px 0;
+}
+
+.circular-timer-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.circular-timer-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 10;
+}
+
+.circular-timer-fill {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.95s linear;
+}
+
+.circular-timer-value {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  z-index: 1;
+  font-family: 'Syne', sans-serif;
 }
 
 .progress {
@@ -573,65 +622,9 @@ body::before {
   color: var(--accent-2);
 }
 
-/* Countdown 3-2-1 card */
-.countdown-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 12px;
-  min-height: 200px;
-}
-
-.countdown-number {
-  font-size: 6rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--accent);
-  animation: countdown-pop 0.25s ease-out;
-}
-
 @keyframes countdown-pop {
   from { transform: scale(1.4); opacity: 0.5; }
   to   { transform: scale(1);   opacity: 1; }
-}
-
-.countdown-exercise {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* Rest between exercises card */
-.rest-between-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 12px;
-  min-height: 200px;
-}
-
-.rest-timer {
-  font-size: 4rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--accent-2);
-}
-
-.rest-next {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0;
-}
-
-.rest-next strong {
-  font-size: 1rem;
-  color: var(--text);
 }
 
 .today-focus {
@@ -794,7 +787,12 @@ body::before {
     grid-template-columns: 1fr;
   }
 
-  .timer-value {
-    font-size: 2.6rem;
+  .circular-timer {
+    width: 180px;
+    height: 180px;
+  }
+
+  .circular-timer-value {
+    font-size: 3.5rem;
   }
 }
