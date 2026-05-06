@@ -60,6 +60,10 @@ const App = () => {
     );
 
   const [gymChecklist, setGymChecklist] = useState<Record<string, boolean[]>>(() => makeChecklist());
+
+  const completedGymExercises = selectedSplit.exercises.filter(
+    (ex) => (gymChecklist[ex.id] ?? new Array(ex.sets).fill(false) as boolean[]).every(Boolean),
+  ).length;
   const [expandedExercises, setExpandedExercises] = useState<Set<string>>(new Set());
 
   const handleDaySelect = (idx: number) => {
@@ -278,6 +282,9 @@ const App = () => {
               <div className="today-focus">
                 <span className="meta">{selectedSplitIndex === todaySplitIndex ? t.todaysFocus : t.days[selectedSplitIndex]}</span>
                 <strong>{t.muscleGroups[selectedSplit.key]}</strong>
+                <span className={`gym-exercise-counter${completedGymExercises === selectedSplit.exercises.length ? ' all-done' : ''}`}>
+                  {completedGymExercises} / {selectedSplit.exercises.length}
+                </span>
               </div>
 
               <section className="gym-checklist">
@@ -290,6 +297,7 @@ const App = () => {
                       <div className="checklist-row-top" onClick={() => toggleExpand(ex.id)}>
                         <span className="checklist-chevron">{expanded ? '▾' : '▸'}</span>
                         <span className="checklist-name">{exerciseName(ex.id)}</span>
+                        <span className="reps-badge">× {ex.reps}</span>
                         <div className="checklist-sets" onClick={(e) => e.stopPropagation()}>
                           {sets.map((checked, idx) => (
                             <button

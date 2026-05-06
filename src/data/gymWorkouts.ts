@@ -3,6 +3,7 @@ import type { Exercise } from './exercises.ts';
 export interface GymExerciseTemplate {
   id: string;
   sets: number;
+  reps: number;
   setDuration: number;
   restDuration: number;
   exerciseRestDuration: number;
@@ -23,12 +24,12 @@ export const gymSplit: SplitDay[] = [
     key: 'legs',
     isRest: false,
     exercises: [
-      { id: 'gym-barbell-squat',     sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-squat' },
-      { id: 'gym-leg-press',         sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-squat' },
-      { id: 'gym-romanian-deadlift', sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-lunge' },
-      { id: 'gym-leg-curl',          sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
-      { id: 'gym-leg-extension',     sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-wall' },
-      { id: 'gym-calf-raise',        sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-step' },
+      { id: 'gym-barbell-squat',     sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-squat' },
+      { id: 'gym-leg-press',         sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-squat' },
+      { id: 'gym-romanian-deadlift', sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-lunge' },
+      { id: 'gym-leg-curl',          sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
+      { id: 'gym-leg-extension',     sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-wall' },
+      { id: 'gym-calf-raise',        sets: 3, reps: 20, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-step' },
     ],
   },
   { key: 'rest', isRest: true, exercises: [] },
@@ -36,12 +37,12 @@ export const gymSplit: SplitDay[] = [
     key: 'arms',
     isRest: false,
     exercises: [
-      { id: 'gym-barbell-curl',         sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
-      { id: 'gym-hammer-curl',          sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
-      { id: 'gym-triceps-pushdown',     sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
-      { id: 'gym-skull-crusher',        sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
-      { id: 'gym-preacher-curl',        sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
-      { id: 'gym-overhead-triceps-ext', sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
+      { id: 'gym-barbell-curl',         sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
+      { id: 'gym-hammer-curl',          sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
+      { id: 'gym-triceps-pushdown',     sets: 3, reps: 15, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
+      { id: 'gym-skull-crusher',        sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
+      { id: 'gym-preacher-curl',        sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
+      { id: 'gym-overhead-triceps-ext', sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
     ],
   },
   { key: 'rest', isRest: true, exercises: [] },
@@ -49,12 +50,12 @@ export const gymSplit: SplitDay[] = [
     key: 'chest-shoulders',
     isRest: false,
     exercises: [
-      { id: 'gym-bench-press',      sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
-      { id: 'gym-incline-db-press', sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
-      { id: 'gym-cable-fly',        sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-rotate' },
-      { id: 'gym-overhead-press',   sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
-      { id: 'gym-lateral-raise',    sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-jump' },
-      { id: 'gym-front-raise',      sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
+      { id: 'gym-bench-press',      sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
+      { id: 'gym-incline-db-press', sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
+      { id: 'gym-cable-fly',        sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-rotate' },
+      { id: 'gym-overhead-press',   sets: 3, reps:  8, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-push' },
+      { id: 'gym-lateral-raise',    sets: 3, reps: 15, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-jump' },
+      { id: 'gym-front-raise',      sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
     ],
   },
   { key: 'rest', isRest: true, exercises: [] },
@@ -62,12 +63,12 @@ export const gymSplit: SplitDay[] = [
     key: 'back',
     isRest: false,
     exercises: [
-      { id: 'gym-deadlift',         sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-lunge' },
-      { id: 'gym-pull-up',          sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
-      { id: 'gym-barbell-row',      sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
-      { id: 'gym-lat-pulldown',     sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
-      { id: 'gym-seated-cable-row', sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
-      { id: 'gym-face-pull',        sets: 3, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
+      { id: 'gym-deadlift',         sets: 3, reps:  6, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-lunge' },
+      { id: 'gym-pull-up',          sets: 3, reps:  8, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
+      { id: 'gym-barbell-row',      sets: 3, reps: 10, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
+      { id: 'gym-lat-pulldown',     sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-dip' },
+      { id: 'gym-seated-cable-row', sets: 3, reps: 12, setDuration: 40, restDuration: 60, exerciseRestDuration: 90, motion: 'motion-plank' },
+      { id: 'gym-face-pull',        sets: 3, reps: 15, setDuration: 40, restDuration: 60, exerciseRestDuration: 0,  motion: 'motion-push' },
     ],
   },
 ];

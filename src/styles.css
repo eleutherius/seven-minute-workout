@@ -652,6 +652,23 @@ body::before {
   text-transform: uppercase;
 }
 
+.gym-exercise-counter {
+  margin-left: auto;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  transition: color 0.3s, background 0.3s;
+}
+
+.gym-exercise-counter.all-done {
+  color: var(--accent-3);
+  background: rgba(52, 211, 153, 0.12);
+}
+
 .gym-checklist {
   display: flex;
   flex-direction: column;
@@ -695,6 +712,14 @@ body::before {
   font-size: 0.9rem;
   font-weight: 600;
   flex: 1;
+}
+
+.reps-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
 }
 
 .checklist-sets {
