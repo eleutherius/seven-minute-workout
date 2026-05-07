@@ -6,7 +6,6 @@ export type Lang = 'en' | 'uk';
 export interface Translations {
   appSubtitle: string;
   appTitle: string;
-  status: Record<string, string>;
   exerciseX: string;
   ofTotal: string;
   timeLeft: string;
@@ -36,14 +35,6 @@ export interface Translations {
 const en: Translations = {
   appSubtitle: 'Daily 7-minute flow',
   appTitle: 'Seven-Minute Workout',
-  status: {
-    idle: 'Ready',
-    countdown: 'Get Ready',
-    running: 'In Progress',
-    rest: 'Rest',
-    paused: 'Paused',
-    done: 'Complete',
-  },
   exerciseX: 'Exercise',
   ofTotal: 'of',
   timeLeft: 'Time Left',
@@ -143,14 +134,6 @@ const en: Translations = {
 const uk: Translations = {
   appSubtitle: 'Щоденний 7-хвилинний комплекс',
   appTitle: 'Семихвилинне тренування',
-  status: {
-    idle: 'Готово',
-    countdown: 'Приготуйтесь',
-    running: 'Виконується',
-    rest: 'Відпочинок',
-    paused: 'Пауза',
-    done: 'Завершено',
-  },
   exerciseX: 'Вправа',
   ofTotal: 'з',
   timeLeft: 'Залишилось',
@@ -202,7 +185,7 @@ const uk: Translations = {
     'gym-seated-cable-row': 'Тяга сидячи',
     'gym-face-pull': 'Тяга до обличчя',
   },
-  homeMode: 'Дім',
+  homeMode: 'Руханка',
   gymMode: 'Зал',
   todaysFocus: 'Сьогодні',
   getReady: 'Приготуйтесь!',

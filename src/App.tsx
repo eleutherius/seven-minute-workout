@@ -240,7 +240,6 @@ const App = () => {
         {workoutMode === 'home' && (
           <>
             <h1>{t.appTitle}</h1>
-            <div className={`status ${status}`}>{t.status[status]}</div>
           </>
         )}
       </header>
@@ -337,7 +336,7 @@ const App = () => {
         <>
           {displayStatus === 'countdown' && (
             <section className="card home-card">
-              <p className="home-card-label">{t.getReady}</p>
+
               <p className="home-card-exercise-name">
                 {t.exerciseX} 1 {t.ofTotal} {workoutExercises.length} · {exerciseName(workoutExercises[0]?.id)}
               </p>
