@@ -340,13 +340,9 @@ body::before {
   position: relative;
   width: 140px;
   height: 140px;
-  border-radius: 24px;
-  background: radial-gradient(60% 60% at 50% 20%, rgba(255, 255, 255, 0.12), transparent 70%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .illustration svg {
@@ -354,31 +350,41 @@ body::before {
   height: 114px;
 }
 
-/* Head */
-.f-head {
-  fill: var(--text);
-}
+/* Head — skin tone */
+.f-head { fill: #e8b89a; }
 
-/* Torso */
-.f-torso {
-  stroke: var(--text);
-  stroke-width: 5.5;
-  stroke-linecap: round;
-}
+/* Hair */
+.f-hair { fill: #1a1008; }
 
-/* Arms — cyan */
+/* Neck */
+.f-neck { fill: #e8b89a; }
+
+/* Shirt */
+.f-shirt { fill: #2b7dd4; }
+
+/* Shorts */
+.f-shorts { fill: #1a1a2e; }
+
+/* Shoes */
+.f-shoe { fill: #2b5fcc; }
+
+/* V-neck — skin tone creates neckline cutout on shirt */
+.f-vneck { fill: #e8b89a; }
+
+/* Joint circles — elbow and knee highlights */
+.f-joint { fill: #d9a882; }
+
+/* Arms — skin, stroke-width set inline per segment */
 .f-arm-l line,
 .f-arm-r line {
-  stroke: var(--accent-2);
-  stroke-width: 5;
+  stroke: #e8b89a;
   stroke-linecap: round;
 }
 
-/* Legs — green */
+/* Legs — skin, stroke-width set inline per segment */
 .f-leg-l line,
 .f-leg-r line {
-  stroke: var(--accent-3);
-  stroke-width: 5;
+  stroke: #e8b89a;
   stroke-linecap: round;
 }
 
@@ -389,35 +395,35 @@ body::before {
 .f-leg-r { transform-box: view-box; transform-origin: 53px 74px; }
 
 /* ---- Jumping Jacks ---- */
-.illustration.motion-jump { animation: body-bounce 0.8s ease-in-out infinite; }
+.illustration.motion-jump svg { animation: body-bounce 0.8s ease-in-out infinite; }
 .illustration.motion-jump .f-arm-l { animation: arm-l-jump 0.8s ease-in-out infinite; }
 .illustration.motion-jump .f-arm-r { animation: arm-r-jump 0.8s ease-in-out infinite; }
 .illustration.motion-jump .f-leg-l { animation: leg-l-jump 0.8s ease-in-out infinite; }
 .illustration.motion-jump .f-leg-r { animation: leg-r-jump 0.8s ease-in-out infinite; }
 
 /* ---- Wall Sit ---- */
-.illustration.motion-wall { animation: body-hold 1.6s ease-in-out infinite; }
+.illustration.motion-wall svg { animation: body-hold 1.6s ease-in-out infinite; }
 
 /* ---- Push-Ups ---- */
-.illustration.motion-push { animation: body-push 1.1s ease-in-out infinite; }
+.illustration.motion-push svg { animation: body-push 1.1s ease-in-out infinite; }
 .illustration.motion-push .f-arm-l,
 .illustration.motion-push .f-arm-r { animation: arm-push 1.1s ease-in-out infinite; }
 
 /* ---- Crunches ---- */
-.illustration.motion-crunch { animation: body-crunch 1.2s ease-in-out infinite; }
+.illustration.motion-crunch svg { animation: body-crunch 1.2s ease-in-out infinite; }
 
 /* ---- Step-Up ---- */
 .illustration.motion-step .f-leg-l { animation: leg-step-l 1s ease-in-out infinite; }
 .illustration.motion-step .f-leg-r { animation: leg-step-r 1s ease-in-out infinite; }
 
 /* ---- Squats ---- */
-.illustration.motion-squat { animation: body-squat 1.3s ease-in-out infinite; }
+.illustration.motion-squat svg { animation: body-squat 1.3s ease-in-out infinite; }
 
 /* ---- Triceps Dip ---- */
-.illustration.motion-dip { animation: body-dip 1.1s ease-in-out infinite; }
+.illustration.motion-dip svg { animation: body-dip 1.1s ease-in-out infinite; }
 
 /* ---- Plank ---- */
-.illustration.motion-plank { animation: body-plank 1.8s ease-in-out infinite; }
+.illustration.motion-plank svg { animation: body-plank 1.8s ease-in-out infinite; }
 
 /* ---- High Knees ---- */
 .illustration.motion-run .f-leg-l { animation: leg-run-l 0.65s ease-in-out infinite; }
@@ -426,14 +432,14 @@ body::before {
 .illustration.motion-run .f-arm-r { animation: arm-run-r 0.65s ease-in-out infinite; animation-delay: -0.325s; }
 
 /* ---- Lunges ---- */
-.illustration.motion-lunge { animation: body-lunge 1.2s ease-in-out infinite; }
+.illustration.motion-lunge svg { animation: body-lunge 1.2s ease-in-out infinite; }
 
 /* ---- Push-Up Rotation ---- */
 .illustration.motion-rotate .f-arm-l { animation: arm-rotate-l 1.4s ease-in-out infinite; }
 .illustration.motion-rotate .f-arm-r { animation: arm-rotate-r 1.4s ease-in-out infinite; }
 
 /* ---- Side Plank ---- */
-.illustration.motion-side { animation: body-side 1.2s ease-in-out infinite; }
+.illustration.motion-side svg { animation: body-side 1.2s ease-in-out infinite; }
 
 
 /* ====================== KEYFRAMES ====================== */
