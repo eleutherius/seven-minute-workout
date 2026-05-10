@@ -1,12 +1,47 @@
+import Lottie from 'lottie-react';
+import jumpingJacksData from '../assets/animations/jumping-jacks.json';
+import lungesData from '../assets/animations/jumps.json';
+import wallSitData from '../assets/animations/wall-sit.json';
+import pushUpsData from '../assets/animations/push-ups.json';
+import crunchesData from '../assets/animations/crunches.json';
+import stepUpData from '../assets/animations/step-up.json';
+import squatsData from '../assets/animations/squats.json';
+import tricepsDipData from '../assets/animations/triceps-dip.json';
+import plankData from '../assets/animations/plank.json';
+import highKneesData from '../assets/animations/high-knees.json';
+import pushupRotationData from '../assets/animations/pushup-rotation.json';
+import sidePlankData from '../assets/animations/side-plank.json';
+
 interface ExerciseIllustrationProps {
   motion?: string;
 }
 
+const MOTION_ANIMATIONS: Record<string, unknown> = {
+  'motion-jump':   jumpingJacksData,
+  'motion-lunge':  lungesData,
+  'motion-wall':   wallSitData,
+  'motion-push':   pushUpsData,
+  'motion-crunch': crunchesData,
+  'motion-step':   stepUpData,
+  'motion-squat':  squatsData,
+  'motion-dip':    tricepsDipData,
+  'motion-plank':  plankData,
+  'motion-run':    highKneesData,
+  'motion-rotate': pushupRotationData,
+  'motion-side':   sidePlankData,
+};
+
 const ExerciseIllustration = ({ motion }: ExerciseIllustrationProps) => {
-  const wrapperClass = ['illustration', motion].filter(Boolean).join(' ');
+  if (motion && MOTION_ANIMATIONS[motion]) {
+    return (
+      <div className="illustration" aria-hidden="true">
+        <Lottie animationData={MOTION_ANIMATIONS[motion]} loop={true} style={{ width: 180, height: 180 }} />
+      </div>
+    );
+  }
 
   return (
-    <div className={wrapperClass} aria-hidden="true">
+    <div className="illustration" aria-hidden="true">
       <svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
 
         {/* Shirt body — wide trapezoid, behind everything */}
@@ -41,14 +76,14 @@ const ExerciseIllustration = ({ motion }: ExerciseIllustrationProps) => {
         {/* Left arm: upper arm + forearm, group rotates around shoulder (50,42) */}
         <g className="f-arm-l">
           <line x1="50" y1="42" x2="28" y2="60" strokeWidth="12" />
-          <line x1="28" y1="60" x2="22" y2="78" strokeWidth="10" />
+          <line x1="28" y1="60" x2="12" y2="72" strokeWidth="10" />
           <circle className="f-joint" cx="28" cy="60" r="6" />
         </g>
 
         {/* Right arm: upper arm + forearm, group rotates around shoulder (50,42) */}
         <g className="f-arm-r">
           <line x1="50" y1="42" x2="72" y2="60" strokeWidth="12" />
-          <line x1="72" y1="60" x2="78" y2="78" strokeWidth="10" />
+          <line x1="72" y1="60" x2="88" y2="72" strokeWidth="10" />
           <circle className="f-joint" cx="72" cy="60" r="6" />
         </g>
 

@@ -395,11 +395,11 @@ body::before {
 .f-leg-r { transform-box: view-box; transform-origin: 53px 74px; }
 
 /* ---- Jumping Jacks ---- */
-.illustration.motion-jump svg { animation: body-bounce 0.8s ease-in-out infinite; }
-.illustration.motion-jump .f-arm-l { animation: arm-l-jump 0.8s ease-in-out infinite; }
-.illustration.motion-jump .f-arm-r { animation: arm-r-jump 0.8s ease-in-out infinite; }
-.illustration.motion-jump .f-leg-l { animation: leg-l-jump 0.8s ease-in-out infinite; }
-.illustration.motion-jump .f-leg-r { animation: leg-r-jump 0.8s ease-in-out infinite; }
+.illustration.motion-jump svg    { animation: body-bounce  5.0s ease-in-out infinite; }
+.illustration.motion-jump .f-arm-l { animation: arm-l-jump 5.0s ease-in-out infinite; }
+.illustration.motion-jump .f-arm-r { animation: arm-r-jump 5.0s ease-in-out infinite; }
+.illustration.motion-jump .f-leg-l { animation: leg-l-jump 5.0s ease-in-out infinite; }
+.illustration.motion-jump .f-leg-r { animation: leg-r-jump 5.0s ease-in-out infinite; }
 
 /* ---- Wall Sit ---- */
 .illustration.motion-wall svg { animation: body-hold 1.6s ease-in-out infinite; }
@@ -444,26 +444,32 @@ body::before {
 
 /* ====================== KEYFRAMES ====================== */
 
+/* Two clear positions: grouped (0–35%) → star (50–85%) → grouped */
 @keyframes body-bounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
+  0%, 35%   { transform: translateY(0); }
+  50%        { transform: translateY(-10px); }
+  65%, 100% { transform: translateY(0); }
 }
 
 @keyframes arm-l-jump {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(-80deg); }
+  0%, 35%   { transform: rotate(0deg); }
+  50%        { transform: rotate(-110deg); }
+  65%, 100% { transform: rotate(0deg); }
 }
 @keyframes arm-r-jump {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(80deg); }
+  0%, 35%   { transform: rotate(0deg); }
+  50%        { transform: rotate(110deg); }
+  65%, 100% { transform: rotate(0deg); }
 }
 @keyframes leg-l-jump {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(-22deg); }
+  0%, 35%   { transform: rotate(0deg); }
+  50%        { transform: rotate(-35deg); }
+  65%, 100% { transform: rotate(0deg); }
 }
 @keyframes leg-r-jump {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(22deg); }
+  0%, 35%   { transform: rotate(0deg); }
+  50%        { transform: rotate(35deg); }
+  65%, 100% { transform: rotate(0deg); }
 }
 
 @keyframes body-hold {
